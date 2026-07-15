@@ -1,0 +1,24 @@
+import os
+from dotenv import load_dotenv
+from openai import OpenAI
+
+# Load environment variables from .env file
+load_dotenv()
+endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+api_key = os.getenv("API_KEY")
+deployment_name = os.getenv("MODEL_DEPLOYMENT_NAME")
+
+# Create the client object
+client = OpenAI(
+    base_url=endpoint,
+    api_key=api_key
+)
+
+# Make a request using the client
+message = client.responses.create(
+    model=deployment_name,
+    input="What is the sentiment of the following text: 'I love programming, but sometimes it can be frustrating.'",
+)
+
+# Print the results
+print(f"Sentiment: {message.output[0]}")
